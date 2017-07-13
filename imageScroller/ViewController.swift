@@ -4,7 +4,7 @@
 //
 //  Created by Prateek Hegde on 12/07/17.
 //  Copyright © 2017 Prateek Hegde. All rights reserved.
-//
+
 import UIKit
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -119,7 +119,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             imageView.frame = CGRect(x: CGFloat(i) * markerWidth, y: 0, width: markerWidth, height: 83)
             
             
-            
+            // new width and height is computed based only on the first image, then the same dimensions follow for the next images
             
             if i == 0 {
             
@@ -152,26 +152,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let arrayOfarrays: [[UIImage]] = [imageArray1, imageArray2, imageArray3]
        
         var newImgHeight: CGFloat = 0
-        var newImgWidth: CGFloat = 0
+        var newImgWidth: CGFloat = 0 // temp unused variable for return value
         
         let image = arrayOfarrays[indexPath.row][0]
-        //let imageView = UIImageView(image: image)
-            
-            
-        //imageView.frame = CGRect(x: 0, y: 0, width: markerWidth, height: 83)
-        //imageView.contentMode = .scaleAspectFill
-        //imageView.clipsToBounds = true
-            
-            
+    
         (newImgWidth, newImgHeight) = computeWidthAndHeight(image: image)
         
         
         return CGSize(width: collectionView.frame.width, height: newImgHeight)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 1.0
-    }
+
 
 }
 
