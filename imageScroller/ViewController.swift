@@ -56,9 +56,31 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
     }
     
-    func computeWidthAndHeight(){
+    func computeWidthAndHeight(image: UIImage) -> (CGFloat, CGFloat) {
         
+        let screenWidth = collectionView.frame.width
+        let ar = image.size.height/image.size.width
         
+        var newImgWidth: CGFloat = 0
+        var newImgHeight: CGFloat = 0
+        var noOfImgsThatCanFit: CGFloat = 0
+        
+        if image.size.width > screenWidth{
+            
+            newImgWidth = screenWidth * 0.9
+            newImgHeight = newImgWidth * ar * 0.9
+            
+            
+        }
+        else if image.size.width < screenWidth {
+            
+            noOfImgsThatCanFit = floor(screenWidth/image.size.width)
+            newImgWidth = (screenWidth/noOfImgsThatCanFit) * 0.9
+            newImgHeight = newImgWidth * ar * 0.9
+            
+        }
+        
+        return (newImgWidth, newImgHeight)
         
     }
     
@@ -81,7 +103,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         var newImgWidth: CGFloat = 0
         var newImgHeight: CGFloat = 0
-        var noOfImgsThatCanFit: CGFloat = 0
+        //var noOfImgsThatCanFit: CGFloat = 0
         
         
         
@@ -98,26 +120,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             
             
-            let screenWidth = collectionView.frame.width
-            let ar = image.size.height/image.size.width
-            
             
             if i == 0 {
-            if image.size.width > screenWidth{
-                
-                 newImgWidth = screenWidth * 0.9
-                 newImgHeight = newImgWidth * ar * 0.9
-                
-                
-            }
-            else if image.size.width < screenWidth {
-                
-                 noOfImgsThatCanFit = floor(screenWidth/imageView.frame.width)
-                 newImgWidth = (screenWidth/noOfImgsThatCanFit) * 0.9
-                 newImgHeight = newImgWidth * ar * 0.9
-                
-            }
-                
+            
+                (newImgWidth, newImgHeight) = computeWidthAndHeight(image: image)
                 scrollView.contentSize = CGSize(width: CGFloat(arrayOfarrays[indexPath.row].count) * newImgWidth, height: newImgHeight)
             }
             
@@ -146,32 +152,18 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let arrayOfarrays: [[UIImage]] = [imageArray1, imageArray2, imageArray3]
        
         var newImgHeight: CGFloat = 0
+        var newImgWidth: CGFloat = 0
         
         let image = arrayOfarrays[indexPath.row][0]
-        let imageView = UIImageView(image: image)
+        //let imageView = UIImageView(image: image)
             
             
         //imageView.frame = CGRect(x: 0, y: 0, width: markerWidth, height: 83)
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
+        //imageView.contentMode = .scaleAspectFill
+        //imageView.clipsToBounds = true
             
             
-        let screenWidth = collectionView.frame.width
-        let ar = image.size.height/image.size.width
-        
-        if image.size.width > screenWidth{
-             let newImgWidth = screenWidth * 0.9
-             newImgHeight = newImgWidth * ar * 0.9
-            //imageView.frame = CGRect(x: CGFloat(i) * newImgWidth, y: 0.0, width: newImgWidth, height: newImgHeight)
-        }
-        else if image.size.width < screenWidth {
-                
-            let noOfImgsThatCanFit = floor(screenWidth/imageView.frame.width)
-             let newImgWidth = (screenWidth/noOfImgsThatCanFit) * 0.9
-             newImgHeight = newImgWidth * ar * 0.9
-            //imageView.frame = CGRect(x: CGFloat(i) * newImgWidth, y: 0.0, width: newImgWidth, height: newImgHeight)
-                
-        }
+        (newImgWidth, newImgHeight) = computeWidthAndHeight(image: image)
         
         
         return CGSize(width: collectionView.frame.width, height: newImgHeight)
